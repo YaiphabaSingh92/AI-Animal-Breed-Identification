@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BovineScan</title>
+    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🐮</text></svg>">
+    <!-- Use FontAwesome for simple icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Dynamic Background Collage -->
+    <div class="bg-collage">
+        <!-- Render gallery twice to ensure the whole page is covered in tiny grid squares -->
+        {% for item in gallery_items %}
+        <div class="bg-item" style="background-image: url('{{ item.image }}');"></div>
+        {% endfor %}
+        {% for item in gallery_items %}
+        <div class="bg-item" style="background-image: url('{{ item.image }}');"></div>
+        {% endfor %}
+        {% for item in gallery_items %}
+        <div class="bg-item" style="background-image: url('{{ item.image }}');"></div>
+        {% endfor %}
+        {% for item in gallery_items %}
+        <div class="bg-item" style="background-image: url('{{ item.image }}');"></div>
+        {% endfor %}
+    </div>
+    
+    <div class="overlay"></div>
+
+    <nav>
+        <a href="#" class="logo"><i class="fa-solid fa-cow"></i> BovineScan</a>
+        <div class="nav-links">
+            <a href="#scanner">Scanner</a>
+            <a href="#architecture">Architecture</a>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: SCANNER & HERO -->
+    <section id="scanner" class="hero-section">
+        <h1>Indian Bovine Breed Identifier</h1>
+        <p class="subtitle">Instantly identify 41 different cattle and buffalo breeds using our highly accurate deep learning model.</p>
+        
+        <div class="scanner-box">
+            <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg">
+            
+            <div class="drop-zone" id="drop-zone">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <p>Drag & Drop an image here</p>
+                <p class="sub-text">or click to browse from your device</p>
+                
+                <img id="preview-img" src="" alt="">
+                <span class="clear-img" id="clear-img"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            
+            <button class="btn" id="analyze-btn">Identify Breed</button>
+            <div class="loader" id="loader"></div>
+            
+            <div class="result-box" id="result-box">
+                <div class="result-label">Predicted Match</div>
+                <div class="result-breed" id="result-breed">Breed Name</div>
+                <div class="result-conf" id="result-conf">Confidence: 99.9%</div>
+                
+                <div class="chart-container" id="result-chart">
+                    <!-- Chart rows will be inserted here dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- RECENT INFERENCES -->
+        <div class="recent-section" id="recent-section" style="display: none;">
+            <h3 class="recent-title">Recent Scans</h3>
+            <div class="recent-grid" id="recent-grid">
+                <!-- Tiles will be dynamically appended here from Javascript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: ARCHITECTURE SPECS -->
+    <section id="architecture">
+        <h2>Model Overview</h2>
+        <p class="subtitle">Technical specifications of the underlying AI classification engine.</p>
+        
+        <div class="specs-grid">
+            <div class="spec-card">
+                <h3>Architecture</h3>
+                <p>Fine-tuned CNN</p>
+                <div class="spec-detail">(ResNet-50 / EfficientNet-B0 base)</div>
+            </div>
+            <div class="spec-card">
+                <h3>Framework</h3>
+                <p>PyTorch</p>
+                <div class="spec-detail">Deep Learning Engine</div>
+            </div>
+            <div class="spec-card">
+                <h3>Input Modality</h3>
+                <p>RGB Image</p>
+                <div class="spec-detail">JPEG/PNG @ 224x224</div>
+            </div>
+            <div class="spec-card">
+                <h3>Output Modality</h3>
+                <p>Breed Label</p>
+                <div class="spec-detail">+ Softmax Confidence Score</div>
+            </div>
+            <div class="spec-card">
+                <h3>Loss Function</h3>
+                <p>CrossEntropyLoss</p>
+                <div class="spec-detail">Classification Standard</div>
+            </div>
+            <div class="spec-card">
+                <h3>Optimizer</h3>
+                <p>Adam / SGD</p>
+                <div class="spec-detail">Gradient Descent</div>
+            </div>
+            <div class="spec-card">
+                <h3>Training Duration</h3>
+                <p>~30 Epochs</p>
+                <div class="spec-detail">For optimal convergence</div>
+            </div>
+            <div class="spec-card">
+                <h3>Validation Accuracy</h3>
+                <p>~90.0%</p>
+                <div class="spec-detail">Highly Accurate Validation</div>
+            </div>
+            <div class="spec-card">
+                <h3>Supported Classes</h3>
+                <p>41 Breeds</p>
+                <div class="spec-detail">Comprehensive Coverage</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-cow"></i> BovineScan
+            </div>
+            
+            <!-- Technical Stack / Partners -->
+            <div class="footer-credits">
+                <span class="power-text">Powered by</span>
+                <div class="tech-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/PyTorch_logo_icon.svg" alt="PyTorch Logo">
+                    <span>PyTorch</span>
+                </div>
+            </div>
+        </div>
+        <p class="footer-copy">&copy; 2026 BovineScan Platform &bull; Advanced Cattle Identification</p>
+    </footer>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div id="custom-alert" class="custom-alert-overlay">
+        <div class="custom-alert-box">
+            <i class="fa-solid fa-circle-exclamation alert-icon"></i>
+            <h3 id="custom-alert-title">Notice</h3>
+            <p id="custom-alert-text">Message goes here.</p>
+            <button class="btn alert-btn" id="custom-alert-btn">OK</button>
+        </div>
+    </div>
+
+    <script src="/static/js/ui.js"></script>
+</body>
+</html>
